@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 /**
  * Main class that simply begins running the program. Has a few static constants,
- * we used this in scenebuilder as well.
+ * we used this in scenebuilder as well. Updated for mac.
  */
 public class VoxspellMain extends Application {
 

@@ -75,8 +75,6 @@ public class ReviewTestWindowController implements SpellingTestWindowController,
      */
     public void restart(){
         _repeatWordButton.setDisable(true);
-        _currentTest = new SpellingTest(_mainTextArea, _answerTextField, this);
-        _currentTest.setReview();//set to review now.
         updateVoiceLabel();
         _startButton.setDisable(false);
         _mainTextArea.setText("");
@@ -115,6 +113,8 @@ public class ReviewTestWindowController implements SpellingTestWindowController,
      *  Method is called when the start button is pressed.
      */
     public void startButtonPress(){
+        _currentTest = new SpellingTest(_mainTextArea, _answerTextField, this);
+        _currentTest.setReview();//set to review now.
         _sessionStats.setLevel((int)_reviewingLevel.getValue());
         _accuracyPercentage.setText(_sessionStats.getAccuracy() + "%");
         _currentTest = new SpellingTest(_mainTextArea, _answerTextField, this);
