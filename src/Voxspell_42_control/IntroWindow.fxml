@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Voxspell_42_control.IntroWindowController">
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <AnchorPane prefHeight="600.0" prefWidth="1050.0">
+            <children>
+            <ImageView fx:id="_imageView" fitHeight="600.0" fitWidth="1050.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@BackgroundImage.jpg" />
+               </image></ImageView>
+            <Text layoutX="413.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select a level:">
+               <font>
+                  <Font size="22.0" />
+               </font></Text>
+            <ComboBox fx:id="_levelSelector" layoutX="413.0" layoutY="370.0" onAction="#levelSelected" prefHeight="9.0" prefWidth="231.0" promptText="1" />
+            <Button fx:id="_startButton" alignment="CENTER" layoutX="458.0" layoutY="448.0" mnemonicParsing="false" onAction="#startButtonPressed" prefHeight="56.0" prefWidth="135.0"  text="Start!">
+               <font>
+                  <Font size="22.0" />
+               </font></Button>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="425.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Group42Font.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="200.0" fitWidth="780.0" layoutX="143.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@VoxspellFont.png" />
+               </image>
+            </ImageView>
+            </children>
+        </AnchorPane>
+    </children>
+</GridPane>

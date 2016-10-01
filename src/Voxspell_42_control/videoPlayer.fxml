@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Voxspell_42_control.VideoPlayerController">
+   <children>
+      <MediaView fx:id="_mediaView" fitHeight="400.0" fitWidth="800.0" layoutX="125.0" layoutY="111.0" />
+      <Text layoutX="371.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-size: 36;" text="Congratulations!" />
+      <Text layoutX="446.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white; -fx-font-size: 18;" text="Enjoy the movie" />
+      <Button fx:id="_goBackButton" layoutX="43.0" layoutY="38.0" mnemonicParsing="false" onAction="#goBackPress" text="Go Back" />
+      <Button fx:id="_controlButton" layoutX="480.0" layoutY="547.0" mnemonicParsing="false" onAction="#onButtonPress" text="Pause/Play" />
+   </children>
+</AnchorPane>

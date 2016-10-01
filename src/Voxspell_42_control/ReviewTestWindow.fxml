@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<?import Voxspell_42_control.NoInputTextArea?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" style="-fx-background-color: DDF6FA;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Voxspell_42_control.ReviewTestWindowController">
+    <children>
+      <ImageView fitHeight="600.0" fitWidth="1050.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@BackgroundImage.jpg" />
+         </image>
+      </ImageView>
+        <Button fx:id="_goBackButton" layoutX="33.0" layoutY="28.0" mnemonicParsing="false" onAction="#goBackButton" text="Go Back" />
+      <TextField fx:id="_answerTextField" layoutX="394.0" layoutY="276.0" onAction="#textEntered" prefHeight="83.0" prefWidth="384.0" style="-fx-font-size: 25;" />
+      <NoInputTextArea fx:id="_mainTextArea" layoutX="178.0" layoutY="108.0" prefHeight="141.0" prefWidth="597.0" style="-fx-font-size: 30; -fx-font-family: Comic Sans;" />
+      <Button fx:id="_startButton" layoutX="344.0" layoutY="379.0" mnemonicParsing="false" onAction="#startButtonPress" prefHeight="70.0" prefWidth="205.0" text="START">
+         <font>
+            <Font size="28.0" />
+         </font></Button>
+      <Text layoutX="338.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 36;" text="Review Quiz">
+         <font>
+            <Font size="30.0" />
+         </font></Text>
+      <Text layoutX="138.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Text Here: ">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Text>
+      <Group layoutX="101.0" layoutY="15.0">
+         <children>
+            <GridPane gridLinesVisible="true" layoutX="565.0" layoutY="395.0" prefHeight="83.0" prefWidth="120.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="118.0" minWidth="10.0" prefWidth="118.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="42.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="_changeVoiceButton" mnemonicParsing="false" onAction="#changeVoiceButtonPressed" prefHeight="58.0" prefWidth="164.0" text="Change Voice" />
+                  <Button fx:id="_repeatWordButton" mnemonicParsing="false" onAction="#repeatWordButtonPressed" prefHeight="45.0" prefWidth="118.0" text="Repeat Word" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </Group>
+      <Text layoutX="671.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="Extra Options" />
+      <Text layoutX="816.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Current Voice:" />
+      <Label fx:id="_currentVoice" layoutX="817.0" layoutY="431.0" text="voice">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <GridPane layoutX="806.0" layoutY="126.0" prefHeight="116.0" prefWidth="236.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="126.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="87.0" minWidth="10.0" prefWidth="59.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Correct:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="_noCorrect" text="0" GridPane.columnIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
+            <Label text="Faulted:" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="_noFaulted" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
+            <Label text="Incorrect:" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="_noIncorrect" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <Label layoutX="793.0" layoutY="57.0" prefHeight="25.0" prefWidth="163.0" text="Reviewing Level">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="_reviewingLevel" layoutX="800.0" layoutY="90.0" onAction="#levelSelected" prefWidth="150.0" promptText="1" />
+      <GridPane layoutX="802.0" layoutY="289.0" prefHeight="26.0" prefWidth="236.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="144.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="85.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Accuracy:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="_accuracyPercentage" prefHeight="39.0" prefWidth="98.0" text="0" GridPane.columnIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
+         </children>
+      </GridPane>
+      <Label layoutX="800.0" layoutY="259.0" text="Current Level Stats:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>
