@@ -30,15 +30,10 @@
                   <Font size="22.0" />
                </font></Text>
             <ComboBox fx:id="_levelSelector" layoutX="413.0" layoutY="370.0" onAction="#levelSelected" prefHeight="9.0" prefWidth="231.0" promptText="1" />
-            <Button fx:id="_startButton" alignment="CENTER" layoutX="458.0" layoutY="448.0" mnemonicParsing="false" onAction="#startButtonPressed" prefHeight="56.0" prefWidth="135.0"  text="Start!">
+            <Button fx:id="_startButton" alignment="CENTER" layoutX="458.0" layoutY="448.0" mnemonicParsing="false" onAction="#startButtonPressed" prefHeight="56.0" prefWidth="135.0" text="Start!">
                <font>
                   <Font size="22.0" />
                </font></Button>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="425.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Group42Font.png" />
-               </image>
-            </ImageView>
             <ImageView fitHeight="200.0" fitWidth="780.0" layoutX="143.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@VoxspellFont.png" />

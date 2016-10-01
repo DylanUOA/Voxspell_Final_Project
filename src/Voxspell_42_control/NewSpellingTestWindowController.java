@@ -77,7 +77,6 @@ public class NewSpellingTestWindowController implements Initializable, SpellingT
     public void restart(){
         _hasStarted = false;
         _repeatWordButton.setDisable(true); //disables button so user cant click it
-        _currentTest = new SpellingTest(_mainTextArea, _answerTextField, this); //make NEW spelling test object
         updateVoiceLabel(); //do a check for voice and update.
         _startButton.setDisable(false); //disable start button
         _mainTextArea.setText(""); //reset textArea
@@ -108,6 +107,7 @@ public class NewSpellingTestWindowController implements Initializable, SpellingT
      * finishes.
      */
     public void startButtonPress(){
+    	 _currentTest = new SpellingTest(_mainTextArea, _answerTextField, this); //make NEW spelling test object
         _hasStarted = true;
         _currentProgressValue = 0; //resets value back to 0
         _quizProgress.setProgress(_currentProgressValue); //sets bar back to 0
