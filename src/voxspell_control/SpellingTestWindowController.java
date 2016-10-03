@@ -1,4 +1,4 @@
-package Voxspell_42_control;
+package voxspell_control;
 
 /**
  * An interface for the two Spelling Tests, new Quiz and review Quiz, so they can both be utilized

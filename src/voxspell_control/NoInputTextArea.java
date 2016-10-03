@@ -1,4 +1,4 @@
-package Voxspell_42_control;
+package voxspell_control;
 
 import javafx.scene.control.TextArea;
 

@@ -1,11 +1,11 @@
-package Voxspell_42_control;
+package voxspell_control;
 
-import Voxspell_42_data.SessionStats;
-import Voxspell_42_data.WordList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import voxspell_data.SessionStats;
+import voxspell_data.WordList;
 
 import java.net.URL;
 import java.util.ResourceBundle;

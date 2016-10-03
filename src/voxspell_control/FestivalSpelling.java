@@ -1,5 +1,5 @@
 
-package Voxspell_42_control;
+package voxspell_control;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

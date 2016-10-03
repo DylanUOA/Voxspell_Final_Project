@@ -1,10 +1,10 @@
-package Voxspell_42_data;
+package voxspell_data;
+
+import static voxspell_control.VoxspellMain.NO_OF_LEVELS;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-
-import static Voxspell_42_control.VoxspellMain.NO_OF_LEVELS;
 
 /**
  * The SessionStats class is a Singleton class that retains all the statistics in regards to all quizzes for the current
@@ -30,6 +30,7 @@ public class SessionStats {
     private int _currentQuizCorrect;
     private int _currentQuizIncorrect;
     private int _currentQuizFaulted;
+    private double _previousAccuracy;
 
     /**
      * The getInstance method is used to obtain the Singleton instance from anywhere, therefore all classes can use
@@ -49,6 +50,7 @@ public class SessionStats {
      * a new SessionStats object to instance.
      */
     private SessionStats() {
+    	_previousAccuracy = 0;
         _masteredList = new int[NO_OF_LEVELS+1];
         _faultedList = new int[NO_OF_LEVELS+1];
         _failedList = new int[NO_OF_LEVELS+1];
@@ -240,5 +242,16 @@ public class SessionStats {
     public int getCurrentQuizFaulted() {
         return _currentQuizFaulted;
     }
-
+    
+    /**
+     * This method stores the previous accuracy before attempting a quiz,
+     * such that it can get a percentage change in the level accuracy.
+     */
+    public void storePreviousAccuracy(){
+    	_previousAccuracy = this.getAccuracy();
+    }
+    
+    public double getAccuracyChange(){
+    	return (this.getAccuracy() - _previousAccuracy);
+    }
 }

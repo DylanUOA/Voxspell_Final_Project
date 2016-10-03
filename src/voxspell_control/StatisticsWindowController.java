@@ -1,16 +1,26 @@
-package Voxspell_42_control;
+package voxspell_control;
 
-import Voxspell_42_data.SessionStats;
-import Voxspell_42_data.Word;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.effect.Reflection;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import voxspell_data.SessionStats;
+import voxspell_data.Word;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import com.sun.scenario.effect.Glow;
 
 /**
  * This class is the Controller class for the StatisticsWindow.fxml. The StatisticsWindow has several components
@@ -30,7 +40,9 @@ public class StatisticsWindowController implements Initializable{
     private Label _levelAccuracy;
     @FXML
     private Label _noOfAttempts;
-
+    @FXML
+    private PieChart _pieChart;
+    
     private int _savedLevel;
     SessionStats _sessionStats;
 
@@ -72,8 +84,38 @@ public class StatisticsWindowController implements Initializable{
         }
         _noOfAttempts.setText(Integer.toString(totalAttempts));
         _levelAccuracy.setText(Double.toString(_sessionStats.getAccuracy()) + "%");
+        setupPieChart();
     }
 
+    private void setupPieChart(){
+    	if(_sessionStats.getLevel()==2){//change to see if nothing tested,
+    		_pieChart.setVisible(false);
+    		//then have label been shown here
+    	}else{//make label nothing here.
+    		_pieChart.setVisible(true);
+    	  	ObservableList<PieChart.Data> pieChartData = 
+        			FXCollections.observableArrayList(
+        					new PieChart.Data("Correct", 10),
+        					new PieChart.Data("Incorrect", 2));
+        	String[] colourList = {"#62f442","#f44242"};//green and red.
+        	_pieChart.setData(pieChartData);
+        	int counter =0;
+        	for (PieChart.Data data : pieChartData) {
+                String color = colourList[counter];
+                data.getNode().setStyle("-fx-pie-color: " + color + ";");
+                counter++;
+            }
+        	Set<Node> items = _pieChart.lookupAll("Label.chart-legend-item");
+        	Color[] colourArray = {Color.web("#62f442"), Color.web("#f44242")}; //same green and red as special colours
+        	counter=0;
+        	for(Node item : items){
+        		Label label = (Label) item;
+        		final Rectangle rectangle = new Rectangle(10,10,colourArray[counter]);
+        		label.setGraphic(rectangle);
+        		counter++;
+        	}
+    	}
+    }
 
     /**
      * This method changes the scene back to the main menu MainWindow.fxml. It also sets the level back to the

@@ -1,4 +1,4 @@
-package Voxspell_42_control;
+package voxspell_control;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -6,10 +6,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import static voxspell_control.VoxspellMain.WINDOW_HEIGHT;
+import static voxspell_control.VoxspellMain.WINDOW_WIDTH;
 
-import static Voxspell_42_control.VoxspellMain.WINDOW_HEIGHT;
-import static Voxspell_42_control.VoxspellMain.WINDOW_WIDTH;
+import java.io.IOException;
 
 /**
  * This class is associated with changing the scenes within the window - effectively

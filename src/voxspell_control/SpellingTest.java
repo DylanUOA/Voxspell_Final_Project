@@ -1,8 +1,8 @@
-package Voxspell_42_control;
+package voxspell_control;
 
-import Voxspell_42_data.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import voxspell_data.*;
 
 import java.util.ArrayList;
 import java.util.Optional;

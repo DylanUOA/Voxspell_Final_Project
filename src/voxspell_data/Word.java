@@ -1,4 +1,4 @@
-package Voxspell_42_data;
+package voxspell_data;
 
 /**
  * This class represents the abstraction of a single "word", it holds a string

@@ -1,4 +1,4 @@
-package Voxspell_42_data;
+package voxspell_data;
 
 /**
  * A simple enum used in a few classes to present the outcome of words. Prevents
