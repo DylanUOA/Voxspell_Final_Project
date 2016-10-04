@@ -24,6 +24,7 @@ public class IntroWindowController implements Initializable{
     private Button _startButton;
 
     SessionStats _sessionStats;
+    private String _levelChoice;
 
     /**
      * This method initializes/populates the ComboBox of levels, and obtains the Singleton Instance sessionStats
@@ -36,6 +37,8 @@ public class IntroWindowController implements Initializable{
         WordList wordlist = WordList.getInstance();
         ArrayList<String> levelNames = wordlist.getLevelNameList();
         _levelSelector.getItems().setAll(levelNames);
+        _levelSelector.setValue(levelNames.get(0));
+        _levelChoice = levelNames.get(0);
     }
 
     /**
@@ -43,7 +46,7 @@ public class IntroWindowController implements Initializable{
      * Method is called when user clicks an option in the combobox.
      */
     public void levelSelected(){
-        _sessionStats.setLevel((String)_levelSelector.getValue());
+        _levelChoice = (String)_levelSelector.getValue();
     }
 
     /**
@@ -51,6 +54,7 @@ public class IntroWindowController implements Initializable{
      * Method is called when user presses the start button.
      */
     public void startButtonPressed() {
+        _sessionStats.setLevel(_levelChoice);
         Stage stage = (Stage) _startButton.getScene().getWindow();
         SceneChanger changer = SceneChanger.getInstance();
         changer.setScene(stage, "MainWindow.fxml");

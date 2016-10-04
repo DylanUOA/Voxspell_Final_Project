@@ -54,7 +54,7 @@ public class SpellingTest {
         _finished = false; //setting booleans
         _jumpUp = false;
         _testingList = new ArrayList<Word>(); //making new Array list and then adding to it.
-        _testingList = _wordList.getLevelList(_statsObject.getLevel());
+        _testingList = _wordList.getLevelList(_statsObject.getLevel()-1);
     }
 
     /**

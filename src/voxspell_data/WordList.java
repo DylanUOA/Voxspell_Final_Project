@@ -106,8 +106,9 @@ public class WordList {
                     }
                 }
                 _spellingMap.put(levelCount,levelList);//just need to add last level
+                levelCount++;
                 _levelCount = levelCount;
-                _levelNameList.add(levelName);
+
             }
         } catch (IOException e){
             //do nothing, as wordlist is already given.

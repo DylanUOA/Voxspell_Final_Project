@@ -59,7 +59,7 @@ public class MainWindowController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         _sessionStats = SessionStats.getInstance();
         _changer = SceneChanger.getInstance();
-        _levelLabel.setText("Current Level: ");
+        _levelLabel.setText("Current Level: "+_sessionStats.getLevelName());
 
     }
 

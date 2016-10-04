@@ -31,7 +31,7 @@
                   <Image url="@VoxspellFont.png" />
                </image>
             </ImageView>
-                <Label fx:id="_levelLabel" layoutX="43.0" layoutY="216.0" prefHeight="33.0" prefWidth="215.0" text="Current Level:">
+                <Label fx:id="_levelLabel" layoutX="43.0" layoutY="216.0" prefHeight="33.0" prefWidth="347.0" text="Current Level:">
                <font>
                   <Font size="22.0" />
                </font></Label>

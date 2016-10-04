@@ -20,7 +20,6 @@
       </ImageView>
         <Button fx:id="_goBackButton" layoutX="33.0" layoutY="28.0" mnemonicParsing="false" onAction="#goBackButton" text="Go Back" />
       <TextField fx:id="_answerTextField" layoutX="394.0" layoutY="276.0" onAction="#textEntered" prefHeight="83.0" prefWidth="384.0" style="-fx-font-size: 25;" />
-      <NoInputTextArea fx:id="_mainTextArea" layoutX="178.0" layoutY="108.0" prefHeight="141.0" prefWidth="597.0" style="-fx-font-size: 30; -fx-font-family: Comic Sans;" />
       <Button fx:id="_startButton" layoutX="344.0" layoutY="379.0" mnemonicParsing="false" onAction="#startButtonPress" prefHeight="70.0" prefWidth="205.0" text="START">
          <font>
             <Font size="28.0" />
@@ -130,5 +129,6 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <TextArea fx:id="_mainTextArea" layoutX="202.0" layoutY="117.0" prefHeight="153.0" prefWidth="517.0" />
     </children>
 </AnchorPane>

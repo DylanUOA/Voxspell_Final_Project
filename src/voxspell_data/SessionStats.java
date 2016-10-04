@@ -65,7 +65,7 @@ public class SessionStats {
         _failedList = new int[_noOfLevels + 1];
         _failedWordsMap = new HashMap<Integer, ArrayList<Word>>();
         _mapOfTestedWords = new HashMap<Integer, ArrayList<Word>>();
-        for (int i = 1; i <= _noOfLevels; i++) {
+        for (int i = 1; i <= _noOfLevels+1; i++) {
             _failedWordsMap.put(i, new ArrayList<Word>());
             _mapOfTestedWords.put(i, new ArrayList<Word>());
         }
