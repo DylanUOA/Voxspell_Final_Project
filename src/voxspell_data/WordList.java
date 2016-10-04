@@ -22,9 +22,11 @@ import java.io.IOException;
  */
 public class WordList {
 
+    private ArrayList<String> _levelNameList;
     private HashMap<Integer, ArrayList<Word>> _spellingMap;
     private static WordList wordList;//Singleton type setup
     private int _levelCount;
+    private File _file;
 
     /**
      * Private constructor to prevent other classes from instantiating it
@@ -32,6 +34,8 @@ public class WordList {
      */
     private WordList(){
         _spellingMap = new HashMap<Integer, ArrayList<Word>>();
+        _levelNameList = new ArrayList<String>();
+        _file = null;
         this.readFile();
     }
 
@@ -47,9 +51,20 @@ public class WordList {
         }
         return wordList;
     }
+    //pretty unsafe but can change later.
+    public void readNewFile(File newFile){
+        _file = newFile;
+        _spellingMap = new HashMap<Integer, ArrayList<Word>>();
+        _levelNameList = new ArrayList<String>();
+        this.readFile();
+    }
 
     public int getLevelCount(){
         return _levelCount;
+    }
+
+    public ArrayList<String> getLevelNameList(){
+        return _levelNameList;
     }
 
     /**
@@ -61,24 +76,39 @@ public class WordList {
     private void readFile(){
         //Needs to read up to a percent sign, then increment by 1 and keep adding words.
         try{
-            File textFile = new File("NZCER-spelling-lists.txt"); //predetermined file given.
+            File textFile;
+            if(_file==null){
+                textFile = new File("NZCER-spelling-lists.txt"); //predetermined file given.
+            }else{
+                textFile = _file;
+            }
             BufferedReader wordListRead = new BufferedReader(new FileReader(textFile));
             String currentLine = null;
             int levelCount =0;
-            ArrayList<Word> levelList = null;
             Word currentWord = null;
-            while((currentLine=wordListRead.readLine()) != null){
-                if(currentLine.contains("%")){//delimiting levels based on % char
-                    _spellingMap.put(levelCount,levelList);
-                    levelCount++;
-                    levelList = new ArrayList<Word>();//make a new list to then add next level to
-                }else{//effectively will have to be normal word now.
-                    currentWord = new Word(currentLine.toLowerCase().trim(), levelCount); //Trims for whitespace
-                    levelList.add(currentWord);
+            currentLine=wordListRead.readLine();
+            if(!currentLine.contains("%")){
+                //rip, colud through down to that catch statement as well.
+            }else{
+                String levelName = currentLine.substring(1);
+                _levelNameList.add(levelName);
+                ArrayList<Word> levelList = new ArrayList<Word>();
+                while((currentLine=wordListRead.readLine()) != null){
+                    if(currentLine.contains("%")){//delimiting levels based on % char
+                        _spellingMap.put(levelCount,levelList);
+                        levelName = currentLine.substring(1);
+                        _levelNameList.add(levelName);
+                        levelCount++;
+                        levelList = new ArrayList<Word>();//make a new list to then add next level to
+                    }else{//effectively will have to be normal word now.
+                        currentWord = new Word(currentLine.toLowerCase().trim(), levelCount); //Trims for whitespace
+                        levelList.add(currentWord);
+                    }
                 }
+                _spellingMap.put(levelCount,levelList);//just need to add last level
+                _levelCount = levelCount;
+                _levelNameList.add(levelName);
             }
-            _spellingMap.put(levelCount,levelList);//just need to add last level
-            _levelCount = levelCount;
         } catch (IOException e){
             //do nothing, as wordlist is already given.
         }
@@ -95,7 +125,7 @@ public class WordList {
         ArrayList<Word> fullLevelList = _spellingMap.get(level);
         Collections.shuffle(fullLevelList); //shuffles the list before taking Words from it.
         ArrayList<Word> returnList = new ArrayList<Word>();
-        for(int i=0;i<10;i++){
+        for(int i=0;i<2;i++){//could make it variable testing here.
             returnList.add(fullLevelList.get(i));
         }
         return returnList;

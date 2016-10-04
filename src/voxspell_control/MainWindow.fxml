@@ -71,6 +71,11 @@
                   </Button>
                </children>
             </GridPane>
+            <Button fx:id="_newWordlistButton" layoutX="388.0" layoutY="502.0" mnemonicParsing="false" onAction="#newWordListPressed" prefHeight="54.0" prefWidth="262.0" text="New WordList">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
             </children>
         </AnchorPane>
     </children>

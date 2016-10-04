@@ -5,8 +5,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import voxspell_data.SessionStats;
+import voxspell_data.WordList;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -31,7 +33,9 @@ public class IntroWindowController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _sessionStats = SessionStats.getInstance();
-        _levelSelector.getItems().setAll(1,2,3,4,5,6,7,8,9,10,11);
+        WordList wordlist = WordList.getInstance();
+        ArrayList<String> levelNames = wordlist.getLevelNameList();
+        _levelSelector.getItems().setAll(levelNames);
     }
 
     /**
@@ -39,7 +43,7 @@ public class IntroWindowController implements Initializable{
      * Method is called when user clicks an option in the combobox.
      */
     public void levelSelected(){
-        _sessionStats.setLevel((int)_levelSelector.getValue());
+        _sessionStats.setLevel((String)_levelSelector.getValue());
     }
 
     /**

@@ -17,6 +17,7 @@ public class SessionStats {
     private static SessionStats instance = null;
     private final WordList _wordList;
     private final int _noOfLevels;
+    private final HashMap<String, Integer> _nameToNumberMap;
     //Counts for number of mastered, faulted, and failed, for respective levels as index
     private int[] _masteredList;
     private int[] _faultedList;
@@ -29,12 +30,13 @@ public class SessionStats {
     private int _currentQuizCorrect;
     private int _currentQuizIncorrect;
     private int _currentQuizFaulted;
+    private String _levelName;
 
     /**
      * The getInstance method is used to obtain the Singleton instance from anywhere, therefore all classes can use
      * and access this data.
      */
-    public static SessionStats getInstance(){
+    public static SessionStats getInstance() {
         if (instance == null) {
             instance = new SessionStats();
         }
@@ -50,9 +52,17 @@ public class SessionStats {
     private SessionStats() {
         _wordList = WordList.getInstance();
         _noOfLevels = _wordList.getLevelCount();
-        _masteredList = new int[_noOfLevels+1];
-        _faultedList = new int[_noOfLevels+1];
-        _failedList = new int[_noOfLevels+1];
+        _nameToNumberMap = new HashMap<String, Integer>();
+        ArrayList<String> levelNames = _wordList.getLevelNameList();
+        int counter=1;
+        //establishes a map that holds strings to names.
+        for(String levelName : levelNames){
+            _nameToNumberMap.put(levelName,counter);
+            counter++;
+        }
+        _masteredList = new int[_noOfLevels + 1];
+        _faultedList = new int[_noOfLevels + 1];
+        _failedList = new int[_noOfLevels + 1];
         _failedWordsMap = new HashMap<Integer, ArrayList<Word>>();
         _mapOfTestedWords = new HashMap<Integer, ArrayList<Word>>();
         for (int i = 1; i <= _noOfLevels; i++) {
@@ -60,8 +70,8 @@ public class SessionStats {
             _mapOfTestedWords.put(i, new ArrayList<Word>());
         }
         _currentLevel = 1;
-        _currentQuizCorrect=0;
-        _currentQuizIncorrect=0;
+        _currentQuizCorrect = 0;
+        _currentQuizIncorrect = 0;
     }
 
     /**
@@ -77,8 +87,9 @@ public class SessionStats {
      * This method updates the necessary statistic fields within the SessionStats, as well as incrementing the
      * individual fields in the words. Using an enum, a switch is used to determine whether the word was tested as
      * mastered, faulted, or failed, and incremented accordingly.
+     *
      * @param status is the status of the word during the quiz; if the user was mastered, faulted, or failed.
-     * @param word is the word that was being tested
+     * @param word   is the word that was being tested
      */
     public void updateStats(WordStatus status, Word word) {
         word.incrementAttempts();
@@ -105,6 +116,7 @@ public class SessionStats {
     /**
      * Adds the failed word to the respective level's failed map. The word is added to the ArrayList in the Map
      * respective to it's level. This map is used during review quiz.
+     *
      * @param word = failed word
      */
     public void addToFailed(Word word) {
@@ -117,6 +129,7 @@ public class SessionStats {
     /**
      * This method returns 10 (or how many words there are) of the failed words of the current level.
      * Shuffles the words, and gives 10 random.
+     *
      * @return a list of the failed words.
      */
     public ArrayList<Word> getFailedWords() {
@@ -124,7 +137,7 @@ public class SessionStats {
         Integer numberOfWords;
         if (currentFailedList.size() == 0) {
             return currentFailedList;
-        }else if (currentFailedList.size() >= 10) {
+        } else if (currentFailedList.size() >= 10) {
             numberOfWords = 10;
         } else {
             numberOfWords = currentFailedList.size();
@@ -140,6 +153,7 @@ public class SessionStats {
     /**
      * This method removes the given word from the Failed Map, if it exsits. Method is called when a user gets
      * the mastered attempt during review quiz.
+     *
      * @param word is the correct word that needs to be removed from failed.
      */
     public void removeFromFailed(Word word) {
@@ -150,6 +164,7 @@ public class SessionStats {
     /**
      * This method returns the current accuracy, as a percentage with two decimal places, of type Double. The current
      * accuracy value is the percentage of mastered over all attempts in the respective level.
+     *
      * @return the accuracy percentage.
      */
     public Double getAccuracy() {
@@ -158,13 +173,14 @@ public class SessionStats {
         if (numerator == 0) { //Has not gotten a single word correct, or a word has not been tested
             return 0.00;
         } else {
-            return Math.round((((double)numerator / denominator)*100)*100.0)/100.0;
+            return Math.round((((double) numerator / denominator) * 100) * 100.0) / 100.0;
         }
     }
 
     /**
      * This method adds the given word to the Map that stores all the words that have been tested throughout this session,
      * so that only the words that have been tested need to be viewed for review statistics.
+     *
      * @param word is the word that has been tested.
      */
     public void addToTestedMap(Word word) {
@@ -176,11 +192,12 @@ public class SessionStats {
 
     /**
      * This method is a getter for the ArrayList at a particular level of the Tested Map.
+     *
      * @param level is the level of which list is returned
      * @return the list at the given level.
      */
     public ArrayList<Word> getTestedList(int level) {
-        return _mapOfTestedWords.get((Integer)level);
+        return _mapOfTestedWords.get((Integer) level);
     }
 
 
@@ -189,20 +206,24 @@ public class SessionStats {
      */
     public void addLevel() {
         if (_currentLevel < _noOfLevels) {
-            _currentLevel+=1;
+            _currentLevel += 1;
         }
     }
 
     /**
      * This method sets the level.
-     * @param level is the level that will be set
+     *
+     * @param levelName is the level that will be set
      */
-    public void setLevel(int level) {
-        _currentLevel = level;
+    public void setLevel(String levelName) {
+        _levelName = levelName;
+        Integer levelNumber = _nameToNumberMap.get(levelName);
+        _currentLevel = levelNumber;
     }
 
     /**
      * This method returns the current level value.
+     *
      * @return current level value.
      */
     public Integer getLevel() {
@@ -212,53 +233,60 @@ public class SessionStats {
     /**
      * This method resets the current quiz statistics, which are the counts for correct, incorrect, and faulted.
      */
-    public void resetCurrentQuizStats(){
-        _currentQuizCorrect=0;
-        _currentQuizIncorrect=0;
-        _currentQuizFaulted=0;
+    public void resetCurrentQuizStats() {
+        _currentQuizCorrect = 0;
+        _currentQuizIncorrect = 0;
+        _currentQuizFaulted = 0;
     }
 
     /**
      * A getter for the number of correct attempts during the current quiz.
+     *
      * @return number of correct/mastered.
      */
-    public int getCurrentQuizCorrect(){
+    public int getCurrentQuizCorrect() {
         return _currentQuizCorrect;
     }
 
     /**
      * A getter for the number of incorrect attempts during the current quiz.
+     *
      * @return number of incorrect/failed
      */
-    public int getCurrentQuizIncorrect(){
+    public int getCurrentQuizIncorrect() {
         return _currentQuizIncorrect;
     }
 
     /**
      * A getter for the number of faulted attempts during the current quiz.
+     *
      * @return number of faulted
      */
     public int getCurrentQuizFaulted() {
         return _currentQuizFaulted;
     }
 
-    public boolean hasCurrentLevelBeenTested(){
-        if(_mapOfTestedWords.get(_currentLevel).size()==0){
+    public boolean hasCurrentLevelBeenTested() {
+        if (_mapOfTestedWords.get(_currentLevel).size()==0) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
 
-    public Integer getlevelCorrect(){
+    public Integer getlevelCorrect() {
         return _masteredList[_currentLevel];
     }
 
-    public Integer getlevelFaulted(){
+    public Integer getlevelFaulted() {
         return _faultedList[_currentLevel];
     }
 
-    public Integer getlevelFailed(){
+    public Integer getlevelFailed() {
         return _failedList[_currentLevel];
+    }
+
+    public String getLevelName() {
+        return _levelName;
     }
 }

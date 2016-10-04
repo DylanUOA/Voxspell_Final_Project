@@ -7,10 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import voxspell_data.SessionStats;
 import voxspell_data.WordList;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -22,6 +24,8 @@ import java.util.ResourceBundle;
  */
 public class MainWindowController implements Initializable{
 
+    @FXML
+    private Button _newWordlistButton;
     @FXML
     private Button _newQuizButton;
     @FXML
@@ -55,8 +59,23 @@ public class MainWindowController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         _sessionStats = SessionStats.getInstance();
         _changer = SceneChanger.getInstance();
-        _levelLabel.setText("Current Level: "+_sessionStats.getLevel().toString());
+        _levelLabel.setText("Current Level: ");
 
+    }
+
+    public void newWordListPressed(){
+        final FileChooser fileChooser = new FileChooser();
+        Stage stage = (Stage) _newQuizButton.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+        WordList.getInstance().readNewFile(file);
+        _sessionStats.clearStats();
+        Alert alertConfirm = new Alert(Alert.AlertType.INFORMATION);
+        alertConfirm.setTitle("New WordList Successful");
+        alertConfirm.setHeaderText(null);
+        alertConfirm.setContentText("New List has been read in successfully, stats cleared.");
+        alertConfirm.showAndWait();
+        SceneChanger changer = SceneChanger.getInstance();
+        changer.setScene(stage, "IntroWindow.fxml");
     }
 
     /**

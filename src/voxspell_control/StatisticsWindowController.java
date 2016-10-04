@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import com.sun.scenario.effect.Glow;
+import voxspell_data.WordList;
 
 /**
  * This class is the Controller class for the StatisticsWindow.fxml. The StatisticsWindow has several components
@@ -33,7 +34,7 @@ public class StatisticsWindowController implements Initializable{
     @FXML
     private TextArea _statsTextArea;
     @FXML
-    private ComboBox<Integer> _levelDrop;
+    private ComboBox _levelSelector;
     @FXML
     private Button _goBackButton;
     @FXML
@@ -43,8 +44,8 @@ public class StatisticsWindowController implements Initializable{
     @FXML
     private PieChart _pieChart;
     
-    private int _savedLevel;
-    SessionStats _sessionStats;
+    private String _savedLevelName;
+    private SessionStats _sessionStats;
 
     /**
      * This method initializes/populates the combobox with the levels, and obtains the Singleton sessionStats object.
@@ -55,8 +56,8 @@ public class StatisticsWindowController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _sessionStats = SessionStats.getInstance();
-        _levelDrop.getItems().setAll(1,2,3,4,5,6,7,8,9,10,11);
-        _savedLevel = _sessionStats.getLevel();
+        _savedLevelName = _sessionStats.getLevelName();
+        _levelSelector.getItems().setAll(WordList.getInstance().getLevelNameList());
     }
 
     /**
@@ -67,9 +68,9 @@ public class StatisticsWindowController implements Initializable{
      */
     public void comboBoxChoice() {
         int totalAttempts = 0;
-        _sessionStats.setLevel(_levelDrop.getValue());
+        _sessionStats.setLevel((String)_levelSelector.getValue());
         ArrayList<Word> listOfWords = _sessionStats.getTestedList(_sessionStats.getLevel());
-        if (listOfWords == null) {
+        if (listOfWords.size()==0) {
             _statsTextArea.setText("No words have been tested yet for this level!\nPlease try doing a quiz first!");
         } else {
             _statsTextArea.setText("Words tested in level " + _sessionStats.getLevel() + ": \n\n");
@@ -123,7 +124,7 @@ public class StatisticsWindowController implements Initializable{
      * Method is called when the go back button is pressed.
      */
     public void goBackButton(){
-        _sessionStats.setLevel(_savedLevel);
+        _sessionStats.setLevel(_savedLevelName);
         Stage stage = (Stage) _goBackButton.getScene().getWindow();
         SceneChanger changer = SceneChanger.getInstance();
         changer.setScene(stage, "MainWindow.fxml");

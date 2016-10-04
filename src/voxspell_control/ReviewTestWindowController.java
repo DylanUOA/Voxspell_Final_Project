@@ -50,7 +50,7 @@ public class ReviewTestWindowController implements SpellingTestWindowController,
     private boolean _isNZVoice = false;
     private boolean _repeatDisable = false;
 
-    private Integer _savedLevel;
+    private String _savedLevelName;
 
 
     /**
@@ -62,10 +62,11 @@ public class ReviewTestWindowController implements SpellingTestWindowController,
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        _reviewingLevel.getItems().setAll(1,2,3,4,5,6,7,8,9,10,11);
+
+        _reviewingLevel.getItems().setAll(WordList.getInstance().getLevelNameList());
         _sessionStats = SessionStats.getInstance();
-        _savedLevel = _sessionStats.getLevel();
-        _reviewingLevel.setValue(_savedLevel);
+        _savedLevelName = _sessionStats.getLevelName();
+        _reviewingLevel.setValue(_savedLevelName);
         restart();
     }
 
@@ -89,7 +90,7 @@ public class ReviewTestWindowController implements SpellingTestWindowController,
      * Method is called when goBackButton is pressed.
      */
     public void goBackButton(){
-        _sessionStats.setLevel(_savedLevel);
+        _sessionStats.setLevel(_savedLevelName);
         _sessionStats.resetCurrentQuizStats();
         Stage stage = (Stage) _goBackButton.getScene().getWindow();
         SceneChanger changer = SceneChanger.getInstance();
@@ -115,7 +116,7 @@ public class ReviewTestWindowController implements SpellingTestWindowController,
     public void startButtonPress(){
         _currentTest = new SpellingTest(_mainTextArea, _answerTextField, this);
         _currentTest.setReview();//set to review now.
-        _sessionStats.setLevel((int)_reviewingLevel.getValue());
+        _sessionStats.setLevel((String)_reviewingLevel.getValue());
         _accuracyPercentage.setText(_sessionStats.getAccuracy() + "%");
         _currentTest = new SpellingTest(_mainTextArea, _answerTextField, this);
         _currentTest.setReview();
