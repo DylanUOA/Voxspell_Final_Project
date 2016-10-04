@@ -69,7 +69,7 @@ public class StatisticsWindowController implements Initializable{
         int totalAttempts = 0;
         _sessionStats.setLevel(_levelDrop.getValue());
         ArrayList<Word> listOfWords = _sessionStats.getTestedList(_sessionStats.getLevel());
-        if (listOfWords.size() == 0) {
+        if (listOfWords == null) {
             _statsTextArea.setText("No words have been tested yet for this level!\nPlease try doing a quiz first!");
         } else {
             _statsTextArea.setText("Words tested in level " + _sessionStats.getLevel() + ": \n\n");
@@ -88,7 +88,7 @@ public class StatisticsWindowController implements Initializable{
     }
 
     private void setupPieChart(){
-    	if(_sessionStats.getLevel()==2){//change to see if nothing tested,
+    	if(!_sessionStats.hasCurrentLevelBeenTested()){//change to see if nothing tested,
     		_pieChart.setVisible(false);
     		//then have label been shown here
     	}else{//make label nothing here.
