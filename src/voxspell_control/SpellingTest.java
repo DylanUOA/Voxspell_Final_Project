@@ -49,7 +49,7 @@ public class SpellingTest {
         _controller = controller; //setting references from constructor into fields.
         _answerField = answerField;
         _statsObject = SessionStats.getInstance();//again another singleton.
-        _statsObject.storePreviousAccuracy();
+        //_statsObject.storePreviousAccuracy();
         _textArea = textArea;
         _finished = false; //setting booleans
         _jumpUp = false;

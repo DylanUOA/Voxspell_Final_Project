@@ -24,6 +24,7 @@ public class WordList {
 
     private HashMap<Integer, ArrayList<Word>> _spellingMap;
     private static WordList wordList;//Singleton type setup
+    private int _levelCount;
 
     /**
      * Private constructor to prevent other classes from instantiating it
@@ -45,6 +46,10 @@ public class WordList {
             wordList = new WordList();
         }
         return wordList;
+    }
+
+    public int getLevelCount(){
+        return _levelCount;
     }
 
     /**
@@ -73,6 +78,7 @@ public class WordList {
                 }
             }
             _spellingMap.put(levelCount,levelList);//just need to add last level
+            _levelCount = levelCount;
         } catch (IOException e){
             //do nothing, as wordlist is already given.
         }

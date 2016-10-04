@@ -36,7 +36,7 @@ public class EndingWindowController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _sessionStats = SessionStats.getInstance();
-        _currentLevelAccuracy.setText(_sessionStats.getAccuracyString());
+        _currentLevelAccuracy.setText(_sessionStats.getAccuracy().toString());
         updateAccuracyChange();
         setUpPieChart();
     }

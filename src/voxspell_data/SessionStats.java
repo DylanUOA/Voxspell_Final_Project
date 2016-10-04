@@ -13,13 +13,14 @@ import java.util.HashMap;
  * other methods and features of the quiz, such as holding the current level.
  */
 public class SessionStats {
-
     //Singleton Field
     private static SessionStats instance = null;
+    private final WordList _wordList;
+    private final int _noOfLevels;
     //Counts for number of mastered, faulted, and failed, for respective levels as index
-    private HashMap<Integer,Integer> _masteredMap;
-    private HashMap<Integer,Integer>  _faultedMap;
-    private HashMap<Integer,Integer>  _failedMap;
+    private int[] _masteredList;
+    private int[] _faultedList;
+    private int[] _failedList;
     private HashMap<Integer, ArrayList<Word>> _failedWordsMap;
     private Integer _currentLevel;
     //Keeps track of all words that have been tested, no need to loop through every word
@@ -28,7 +29,6 @@ public class SessionStats {
     private int _currentQuizCorrect;
     private int _currentQuizIncorrect;
     private int _currentQuizFaulted;
-    private double _previousAccuracy;
 
     /**
      * The getInstance method is used to obtain the Singleton instance from anywhere, therefore all classes can use
@@ -48,12 +48,17 @@ public class SessionStats {
      * a new SessionStats object to instance.
      */
     private SessionStats() {
-    	_previousAccuracy = 0;
-        _masteredMap = new HashMap<Integer,Integer>();
-        _faultedMap = new HashMap<Integer,Integer>();
-        _failedMap = new HashMap<Integer,Integer>();
+        _wordList = WordList.getInstance();
+        _noOfLevels = _wordList.getLevelCount();
+        _masteredList = new int[_noOfLevels+1];
+        _faultedList = new int[_noOfLevels+1];
+        _failedList = new int[_noOfLevels+1];
         _failedWordsMap = new HashMap<Integer, ArrayList<Word>>();
         _mapOfTestedWords = new HashMap<Integer, ArrayList<Word>>();
+        for (int i = 1; i <= _noOfLevels; i++) {
+            _failedWordsMap.put(i, new ArrayList<Word>());
+            _mapOfTestedWords.put(i, new ArrayList<Word>());
+        }
         _currentLevel = 1;
         _currentQuizCorrect=0;
         _currentQuizIncorrect=0;
@@ -79,33 +84,22 @@ public class SessionStats {
         word.incrementAttempts();
         switch (status) {
             case MASTERED:
-                Integer masteredValue = getNextInteger(_masteredMap.get(_currentLevel));
-                _masteredMap.put(_currentLevel, masteredValue);
+                _masteredList[_currentLevel] += 1;
                 word.incrementCorrect();
                 _currentQuizCorrect += 1;
                 break;
             case FAULTED:
-                Integer faultedValue = getNextInteger(_faultedMap.get(_currentLevel));
-                _masteredMap.put(_currentLevel, faultedValue);
+                _faultedList[_currentLevel] += 1;
                 word.incrementFaulted();
                 _currentQuizFaulted += 1;
                 break;
             case FAILED:
-                Integer failedValue = getNextInteger(_faultedMap.get(_currentLevel));
-                _masteredMap.put(_currentLevel, failedValue);
+                _failedList[_currentLevel] += 1;
                 word.incrementIncorrect();
                 _currentQuizIncorrect += 1;
                 break;
         }
         this.addToTestedMap(word);
-    }
-
-    private Integer getNextInteger(Integer passedValue){
-        if(passedValue==null){
-            return 1;
-        }else{
-            return passedValue++;
-        }
     }
 
     /**
@@ -115,9 +109,6 @@ public class SessionStats {
      */
     public void addToFailed(Word word) {
         ArrayList<Word> currentFailedList = _failedWordsMap.get(_currentLevel);
-        if(currentFailedList==null){
-            currentFailedList = new ArrayList<Word>();
-        }
         if (!(currentFailedList.contains(word))) {
             currentFailedList.add(word);
         }
@@ -161,31 +152,14 @@ public class SessionStats {
      * accuracy value is the percentage of mastered over all attempts in the respective level.
      * @return the accuracy percentage.
      */
-    public double getAccuracy() {
-        Integer numerator = getDoubleFromMap(_masteredMap);
+    public Double getAccuracy() {
+        int numerator = _masteredList[_currentLevel];
+        int denominator = _masteredList[_currentLevel] + _faultedList[_currentLevel] + _failedList[_currentLevel];
         if (numerator == 0) { //Has not gotten a single word correct, or a word has not been tested
             return 0.00;
         } else {
-            Integer denom2 = getDoubleFromMap(_faultedMap);
-            Integer denom3 = getDoubleFromMap(_failedMap);
-            Integer denominator = numerator + denom2 + denom3;
             return Math.round((((double)numerator / denominator)*100)*100.0)/100.0;
         }
-    }
-
-    private Integer getDoubleFromMap(HashMap<Integer,Integer> map){
-        Integer value = map.get(_currentLevel);
-        if(value==null){
-            return 0;
-        }else{
-            return value;
-        }
-    }
-
-
-    public String getAccuracyString(){
-        Double returnValue = this.getAccuracy();
-        return returnValue.toString();
     }
 
     /**
@@ -194,12 +168,9 @@ public class SessionStats {
      * @param word is the word that has been tested.
      */
     public void addToTestedMap(Word word) {
-        ArrayList<Word> currentLevelList = _mapOfTestedWords.get(_currentLevel);
-        if(currentLevelList==null){
-            currentLevelList = new ArrayList<Word>();
-        }
-        if (!currentLevelList.contains(word)) {
-            currentLevelList.add(word);
+        ArrayList<Word> currentLevelArray = _mapOfTestedWords.get(_currentLevel);
+        if (!currentLevelArray.contains(word)) {
+            currentLevelArray.add(word);
         }
     }
 
@@ -217,7 +188,7 @@ public class SessionStats {
      * This method increments the level. Maximises at 11.
      */
     public void addLevel() {
-        if (_currentLevel < 11) {
+        if (_currentLevel < _noOfLevels) {
             _currentLevel+=1;
         }
     }
@@ -270,24 +241,24 @@ public class SessionStats {
     public int getCurrentQuizFaulted() {
         return _currentQuizFaulted;
     }
-    
-    /**
-     * This method stores the previous accuracy before attempting a quiz,
-     * such that it can get a percentage change in the level accuracy.
-     */
-    public void storePreviousAccuracy(){
-    	_previousAccuracy = this.getAccuracy();
-    }
-    
-    public double getAccuracyChange(){
-    	return (this.getAccuracy() - _previousAccuracy);
-    }
 
     public boolean hasCurrentLevelBeenTested(){
-        if(_mapOfTestedWords.get(_currentLevel) == null){
+        if(_mapOfTestedWords.get(_currentLevel).size()==0){
             return false;
         }else{
             return true;
         }
+    }
+
+    public Integer getlevelCorrect(){
+        return _masteredList[_currentLevel];
+    }
+
+    public Integer getlevelFaulted(){
+        return _faultedList[_currentLevel];
+    }
+
+    public Integer getlevelFailed(){
+        return _failedList[_currentLevel];
     }
 }

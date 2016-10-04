@@ -95,8 +95,8 @@ public class StatisticsWindowController implements Initializable{
     		_pieChart.setVisible(true);
     	  	ObservableList<PieChart.Data> pieChartData = 
         			FXCollections.observableArrayList(
-        					new PieChart.Data("Correct", 10),
-        					new PieChart.Data("Incorrect", 2));
+        					new PieChart.Data("Correct", _sessionStats.getlevelCorrect()),
+        					new PieChart.Data("Incorrect", _sessionStats.getlevelFailed()));
         	String[] colourList = {"#62f442","#f44242"};//green and red.
         	_pieChart.setData(pieChartData);
         	int counter =0;
